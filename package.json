@@ -1,0 +1,14 @@
+{
+  "name": "microservice-consul",
+  "version": "0.0.1",
+  "description": "This module is in charge of building 'consul' agent pools.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/v-cube/microservice-module-consul.git"
+  },
+  "dependencies": {
+    "consul": "~0.26.0"
+  }
+}

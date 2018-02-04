@@ -1,0 +1,165 @@
+{
+
+  "godsaidso": {
+    "vcubegs-sg": "$2a$12$K1hv.VfOsNMrLSKZcqOJWeJ1JM0H3aS7nHI3CJ1rn.U9PhxI4a4w."
+  },
+
+  "logger": {
+    "winston": {
+      "gate": {
+        "logLevel": "debug",
+        "logLevelStyle": "RFC5424",
+        "logOpts": {
+          "elasticsearchIndexNames": {
+            "microservices": "microservices"
+          },
+          "grafanaTimeFormat": {
+            "hourly": "YYYY.MM.DD.HH",
+            "daily": "YYYY.MM.DD",
+            "weekly": "GGGG.WW",
+            "monthly": "YYYY.MM",
+            "yearly": "YYYY"
+          }
+        }
+      }
+    }
+  },
+
+  "email": {
+    "gate": [
+      {
+        "host": "micro01.sgdev.vcube.com",
+        "port": 65000,
+        "authMethod": "PLAIN",
+        "auth": {
+          "user": "support",
+          "pass": "L6b8c38fb30664cdb25382d201893c1f"
+        },
+        "fromAddr": "\"V-CUBE Gate\"<support@microservices.vcube.sg>"
+      }
+    ]
+  },
+
+  "jwt": {
+    "gate": {
+      "accessTokenOpts": {
+        "algorithm": "HS256",
+        "expiresIn": "1h",
+        "issuer": "V-cube, Inc.",
+        "noTimestamp": true,
+        "subject": "AT"
+      },
+      "refreshTokenOpts": {
+        "algorithm": "HS256",
+        "expiresIn": "30 days",
+        "issuer": "V-cube, Inc.",
+        "noTimestamp": true,
+        "subject": "RT"
+      },
+      "token24Opts": {
+        "algorithm": "HS256",
+        "expiresIn": "1d",
+        "issuer": "V-cube, Inc.",
+        "noTimestamp": true
+      },
+      "tokenRegenThreshold": {
+        "accessTokenInMins": 5,
+        "refreshTokenInDays": 7
+      },
+      "strSecret": "c2xqZnNvdWZvdSkqJigqJiEoIyYoIUAoI0pLTERKTEZKTFNKRiZMRFNKXytffXx7fHt8ez5NPjw+TSo+fn4xMzEyMzEyKCkoamtzZmpGKihTRCZGKFNVRCBqIGRqZiBqb3Nqb2Z1c29mdSAgIGlJT0ZVRE9Gfip8IjoqWUhiaGR5NzlgLSw="
+    }
+  },
+
+  "mongodb": {
+    "gate": {
+      "hosts": [
+        "10.0.1.6:27017",
+        "10.0.2.101:27017"
+      ],
+      "dbName": "microservices",
+      "connOpts": {
+        "maxPoolSize": 2
+      }
+    }
+  },
+
+  "rabbitmq": {
+    "rabbitmqConsulServicesNamePrefix": "rabbitmq_server_",
+    "plainAuth": "amqp://leonard:1234567890@",
+    "settings": {
+      "mqBaseName": "gate-mq-",
+      "exchangeBaseName": "gate-ex-",
+      "exchanges": {
+        "gate-ex-to-ws": {
+          "name": "gate-ex-to-ws",
+          "type": "topic",
+          "opts": {
+            "durable": true,
+            "internal": false,
+            "autoDelete": true,
+            "alternateExchange": ""
+          },
+          "binds": {
+            "forTextMessage": {
+              "routingKey": "message.text.*",
+              "mq": {
+                "name": "gate-mq-text-message-to-ws",
+                "opts": {
+                  "exclusive": false,
+                  "durable": true,
+                  "autoDelete": true
+                }
+              }
+            }
+          }
+        },
+        "gate-ex-ws-loopback": {
+          "name": "gate-ex-ws-loopback",
+          "type": "fanout",
+          "opts": {
+            "durable": true,
+            "internal": false,
+            "autoDelete": true,
+            "alternateExchange": ""
+          },
+          "binds": {
+            "forTextMessage": {
+              "mq": {
+                "name": "gate-mq-text-message-ws-loopback",
+                "opts": {
+                  "exclusive": false,
+                  "durable": true,
+                  "autoDelete": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "tls": {
+    "localhost": {
+      "root": {
+        "root_ca.pem": ""
+      },
+      "server": {
+        "server_cert.pem": "",
+        "server_cert_private_key.pem": ""
+      }
+    },
+    "*.sgdev.vcube.com": {
+      "root": {
+        "root_ca.pem": ""
+      },
+      "server": {
+        "server_cert.pem": "",
+        "server_cert_private_key.pem": ""
+      }
+    }
+  }
+
+}
+
+
